@@ -12,6 +12,9 @@ tools:
 Esta skill permite a los agentes de IA generar videos de Remotion siguiendo estrictamente la identidad visual de "Ángel".
 
 ## Capacidades
+...
+## Capacidades
 1. Generación de Templates Verticales (9:16).
 2. Aplicación de Tipografía Montserrat Black.
 3. Lógica de colores semáforo (Rojo/Verde).
+4. **Auditoría de Retención (CRITIC.md): Análisis automático de puntos de fuga.**
