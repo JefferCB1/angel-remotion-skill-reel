@@ -9,7 +9,7 @@ Para usar estos diseños, el proyecto debe tener instaladas estas librerías:
 ## 2. Catálogo de Efectos Permitidos
 
 ### A. Títulos Cinéticos (Kinetic Typography)
-**Objetivo:** Los textos no aparecen, *golpean* la pantalla.
+**Objetivo:** Los textos no aparecen suavemente, *golpean* la pantalla.
 **Herramienta:** `remotion-animated`
 
 #### Código de Ejemplo (Entrada "Punch"):
@@ -29,7 +29,11 @@ import { Scale, Move } from 'remotion-animated';
     </h1>
   </Move>
 </Scale>
+B. Transiciones Agresivas
+Objetivo: Cambiar de contexto (Cara -> Pantalla) sin cortes secos feos, usando movimiento rápido. Herramienta: @remotion/transitions
 
+Código de Ejemplo (Slide Rápido):
+TypeScript
 import { TransitionSeries, linear } from '@remotion/transitions';
 import { slide } from '@remotion/transitions/slide';
 
@@ -50,7 +54,11 @@ import { slide } from '@remotion/transitions/slide';
     <DemoScreenComponent />
   </TransitionSeries.Sequence>
 </TransitionSeries>
+C. Efecto "Highlight" (Resaltador)
+Objetivo: Enfatizar una línea en un documento o captura de pantalla. Estilo: Barra verde semitransparente que se expande.
 
+Código de Ejemplo:
+TypeScript
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
 
 const frame = useCurrentFrame();
@@ -67,18 +75,43 @@ const width = interpolate(frame, [0, 10], [0, 100], { extrapolateRight: 'clamp' 
   opacity: 0.5,
   mixBlendMode: 'multiply' // Para que se lea el texto de abajo
 }} />
+D. Efecto "Camera Shake" (Temblor)
+Objetivo: Usar cuando el orador esté "enfadado" o diga una verdad incómoda. Herramienta: remotion-animated (<Move>) o cálculo manual.
 
-***
+TypeScript
+import { Move } from 'remotion-animated';
 
-### ¿Qué hacer después de guardar?
-No olvides subir los cambios a la nube para que el comando `npx` actualice la skill en tus proyectos:
+// El video tiembla ligeramente en X e Y
+<Move x={5} y={5} duration={5} repeat={Infinity}>
+  <Video src={...} />
+</Move>
+3. Reglas de Diseño (Philosophy)
+Cero Fade-In: Nunca uses desvanecidos suaves para entrar textos. Usa Scale (Zoom) o Move (Deslizamiento).
 
-1.  Abre la terminal en la carpeta `angel-remotion-skill-reel`.
-2.  Ejecuta:
-    ```bash
-    git add .
-    git commit -m "Design System completo V2"
-    git push
-    ```
+Velocidad: Las transiciones no deben durar más de 15 frames (0.5s).
 
-¡Listo! Tu skill ahora tiene el manual completo de efectos especiales. 🎬
+Jerarquía: Si hay un Título y un Subtítulo, el Título entra primero, el Subtítulo 5 frames después.
+
+4. Físicas de Movimiento (Motion Presets)
+Para evitar movimientos lineales aburridos, usa estas configuraciones de spring obligatorias cuando uses remotion nativo:
+
+A. "The Angel Snap" (Golpe Seco)
+Para textos principales y títulos que entran agresivos. Rápido, con poco rebote.
+
+TypeScript
+const snapConfig = {
+  damping: 14,
+  mass: 0.5,
+  stiffness: 180
+};
+// Uso: const scale = spring({ config: snapConfig, ... })
+B. "The Bouncy Reveal" (Rebote Suave)
+Para elementos secundarios (iconos, stickers, botón de suscripción).
+
+TypeScript
+const bouncyConfig = {
+  damping: 10,
+  mass: 0.8,
+  stiffness: 100
+};
+// Uso: const scale = spring({ config: bouncyConfig, ... })
